@@ -35,3 +35,10 @@ https://kedro.readthedocs.io/en/stable/kedro_project_setup/settings.html."""
 # Class that manages the Data Catalog.
 # from kedro.io import DataCatalog
 # DATA_CATALOG_CLASS = DataCatalog
+
+from pathlib import Path
+
+from kedro_viz.integrations.kedro.sqlite_store import SQLiteStore
+
+SESSION_STORE_CLASS = SQLiteStore
+SESSION_STORE_ARGS = {"path": str(Path(__file__).parents[2] / "data")}
