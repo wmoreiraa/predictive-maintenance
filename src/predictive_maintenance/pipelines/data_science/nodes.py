@@ -29,6 +29,7 @@ def _column_transformer():
 
 
 def _param_grid() -> List[Dict[str, Any]]:
+    "Pipe param grid"
     return [
         {
             "estimator": [
