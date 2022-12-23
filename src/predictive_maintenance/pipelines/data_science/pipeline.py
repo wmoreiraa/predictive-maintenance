@@ -5,7 +5,7 @@ generated using Kedro 0.18.3
 
 from kedro.pipeline import Pipeline, node, pipeline
 
-from .nodes import train_node
+from .nodes import get_model_scores, train_node
 
 
 def create_pipeline(**kwargs) -> Pipeline:
@@ -14,8 +14,14 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 func=train_node,
                 inputs="master_table",
-                outputs="fitted_model",
+                outputs=["model", "x_valid", "y_valid"],
                 name="train_model",
+            ),
+            node(
+                func=get_model_scores,
+                inputs=["x_valid", "y_valid", "model"],
+                outputs="metrics",
+                name="get_scores"
             )
         ]
     )

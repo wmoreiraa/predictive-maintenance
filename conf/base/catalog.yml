@@ -6,3 +6,17 @@
 raw:
   type: pandas.CSVDataSet
   filepath: data/01_raw/predictive_maintenance.csv
+
+master_table:
+  type: pandas.ParquetDataSet
+  filepath: data/05_model_input/master_table.parquet
+  versioned: true
+
+model:
+  type: pickle.PickleDataSet
+  filepath: data/06_models/model.pickle
+  versioned: true
+
+metrics:
+  type: tracking.MetricsDataSet
+  filepath: data/09_tracking/metrics.json

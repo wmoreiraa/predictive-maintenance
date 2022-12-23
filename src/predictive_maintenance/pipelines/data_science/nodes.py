@@ -2,6 +2,7 @@
 This is a boilerplate pipeline 'data_science'
 generated using Kedro 0.18.3
 """
+import logging
 from typing import Any, Dict, List
 
 import numpy as np
@@ -10,9 +11,16 @@ from sklearn.compose import ColumnTransformer, make_column_selector
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, make_scorer, matthews_corrcoef
-from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.model_selection import (
+    GridSearchCV,
+    StratifiedKFold,
+    cross_val_score,
+    train_test_split,
+)
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, StandardScaler
+
+np.random.seed(42)
 
 
 def _column_transformer():
@@ -83,7 +91,18 @@ def train_node(master_table: pd.DataFrame):
     X, y = master_table.drop([TARGET_COL], axis=1), master_table[TARGET_COL]
     le = LabelEncoder()
     y = le.fit_transform(y)
+    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.15, shuffle=True, stratify=y)
 
     search = _get_search_cv()
-    search.fit(X, y)
-    return search
+    search.fit(X_train, y_train)
+    return search, X_valid, y_valid
+
+
+def get_model_scores(X_valid: pd.DataFrame, y_valid: pd.Series, model: Pipeline):
+    scores = cross_val_score(model, X_valid, y_valid, n_jobs=-1, error_score="raise", verbose=2, scoring=make_scorer(matthews_corrcoef))
+    mean_, std_ = scores.mean(), scores.std()
+    logging.info(f"MCC: {mean_:0.4f} (+/- {std_:0.4f})")
+    return {
+        "mcc_mean" : mean_,
+        "mcc_std" : std_
+    }
