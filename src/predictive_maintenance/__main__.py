@@ -34,6 +34,7 @@ def _find_run_command_in_plugins(plugins):
     for group in plugins:
         if "run" in group.commands:
             return group.commands["run"]
+    return None
 
 
 def main(*args, **kwargs):
