@@ -30,7 +30,7 @@ jobs:
         python -m pip install -e "./src[docs]" --no-cache-dir
     - name: Docs build
       run: |
-        kedro build docs
+        kedro build-docs
     - name: Deploy docs
       uses: peaceiris/actions-gh-pages@v3
       if: ${{ github.ref == 'refs/heads/main' }}
