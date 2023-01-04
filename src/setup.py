@@ -1,8 +1,6 @@
 from setuptools import find_packages, setup
 
-entry_point = (
-    "predictive-maintenance = predictive_maintenance.__main__:main"
-)
+entry_point = "predictive-maintenance = predictive_maintenance.__main__:main"
 
 
 # get the dependencies and installs
@@ -34,6 +32,7 @@ setup(
             "ipykernel>=5.3, <7.0",
             "Jinja2<3.1.0",
             "myst-parser~=0.17.2",
-        ]
+        ],
+        "test": ["pytest~=6.2", "pytest-cov~=3.0", "pytest-mock>=1.7.1, <2.0"],
     },
 )

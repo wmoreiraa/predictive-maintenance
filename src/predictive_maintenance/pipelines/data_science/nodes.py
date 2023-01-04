@@ -3,10 +3,11 @@ This is a boilerplate pipeline 'data_science'
 generated using Kedro 0.18.3
 """
 import logging
-from typing import Any, Dict, List
+from typing import Any
 
 import numpy as np
 import pandas as pd
+from feature_engine.creation import MathFeatures
 from sklearn.compose import ColumnTransformer, make_column_selector
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -30,13 +31,14 @@ def _column_transformer():
     return ColumnTransformer(
         transformers=[
             ("scaler", "passthrough", num_selector),
+            ("temperature", "passthrough", ["air_temperature", "process_temperature"]),
             ("cat_preprocessing", OrdinalEncoder(handle_unknown="error"), cat_selector),
         ],
         remainder="passthrough",
     )
 
 
-def _param_grid() -> List[Dict[str, Any]]:
+def _param_grid() -> list[dict[str, Any]]:
     "Pipe param grid"
     return [
         {
@@ -47,6 +49,7 @@ def _param_grid() -> List[Dict[str, Any]]:
             ],
             "estimator__C": [0.01, 0.1, 0.25, 0.5, 1.0],
             "transformer__scaler": [StandardScaler()],
+            "transformer__temperature": [MathFeatures(func="sub")],
         },
         {
             "estimator": [RandomForestClassifier(n_estimators=500)],
@@ -91,7 +94,9 @@ def train_node(master_table: pd.DataFrame):
     X, y = master_table.drop([TARGET_COL], axis=1), master_table[TARGET_COL]
     le = LabelEncoder()
     y = le.fit_transform(y)
-    X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.15, shuffle=True, stratify=y)
+    X_train, X_valid, y_train, y_valid = train_test_split(
+        X, y, test_size=0.15, shuffle=True, stratify=y
+    )
 
     search = _get_search_cv()
     search.fit(X_train, y_train)
@@ -99,10 +104,15 @@ def train_node(master_table: pd.DataFrame):
 
 
 def get_model_scores(X_valid: pd.DataFrame, y_valid: pd.Series, model: Pipeline):
-    scores = cross_val_score(model, X_valid, y_valid, n_jobs=-1, error_score="raise", verbose=2, scoring=make_scorer(matthews_corrcoef))
+    scores = cross_val_score(
+        model,
+        X_valid,
+        y_valid,
+        n_jobs=-1,
+        error_score="raise",
+        verbose=2,
+        scoring=make_scorer(matthews_corrcoef),
+    )
     mean_, std_ = scores.mean(), scores.std()
     logging.info(f"MCC: {mean_:0.4f} (+/- {std_:0.4f})")
-    return {
-        "mcc_mean" : mean_,
-        "mcc_std" : std_
-    }
+    return {"mcc_mean": mean_, "mcc_std": std_}

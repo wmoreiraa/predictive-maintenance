@@ -1,0 +1,40 @@
+name: documentation
+on:
+push:
+    branches:
+    - main
+pull_request:
+    branches:
+    - main
+workflow_dispatch:
+    branches:
+    - main
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.10.5
+    - name: Caching
+      id: cache
+      uses: actions/cache@v3
+      with:
+        path: $/{/{ env.pythonLocation /}/}
+        key: $/{/{ env.pythonLocation /}/}-$/{/{ hashFiles('src/setup.py') /}/}-$/{/{ hashFiles('src/requirements.txt') /}/}
+    - name: Install dependencies
+      run: |
+        python -m pip install -e "./src[docs]" --no-cache-dir
+    - name: Docs build
+      run: |
+        kedro build docs
+    - name: Deploy docs
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.ref == 'refs/heads/main' }}
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/build/html
+        publish_branch: gh-pages
