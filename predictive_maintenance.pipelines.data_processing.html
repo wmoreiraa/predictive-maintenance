@@ -224,14 +224,20 @@ generated using Kedro 0.18.3</p>
 </section>
 <section id="module-predictive_maintenance.pipelines.data_processing.nodes">
 <span id="predictive-maintenance-pipelines-data-processing-nodes-module"></span><h2>predictive_maintenance.pipelines.data_processing.nodes module<a class="headerlink" href="#module-predictive_maintenance.pipelines.data_processing.nodes" title="Permalink to this headline">¶</a></h2>
-<p>This is a boilerplate pipeline ‘data_processing’
-generated using Kedro 0.18.3</p>
+<p>Nodes containing the preprocessing steps used in the preprocessing pipeline:</p>
 <dl class="py function">
 <dt id="predictive_maintenance.pipelines.data_processing.nodes.drop_cols">
 <code class="sig-prename descclassname">predictive_maintenance.pipelines.data_processing.nodes.</code><code class="sig-name descname">drop_cols</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw_sanitized</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/predictive_maintenance/pipelines/data_processing/nodes.html#drop_cols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#predictive_maintenance.pipelines.data_processing.nodes.drop_cols" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Drop columns that wont be used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raw_sanitized</strong> (<em>pd.DataFrame</em>) – raw data with clean col names</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>clean data</p>
+</dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -239,9 +245,16 @@ generated using Kedro 0.18.3</p>
 <dl class="py function">
 <dt id="predictive_maintenance.pipelines.data_processing.nodes.sanitize_col_names">
 <code class="sig-prename descclassname">predictive_maintenance.pipelines.data_processing.nodes.</code><code class="sig-name descname">sanitize_col_names</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">raw</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/predictive_maintenance/pipelines/data_processing/nodes.html#sanitize_col_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#predictive_maintenance.pipelines.data_processing.nodes.sanitize_col_names" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Used to clean column names</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>raw</strong> (<em>pd.DataFrame</em>) – raw dataframe</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dataframe with proper column names</p>
+</dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>

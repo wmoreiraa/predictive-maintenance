@@ -173,14 +173,20 @@
            <div itemprop="articleBody">
             
   <h1>Source code for predictive_maintenance.pipelines.data_processing.nodes</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This is a boilerplate pipeline &#39;data_processing&#39;</span>
-<span class="sd">generated using Kedro 0.18.3</span>
+<span></span><span class="sd">&quot;&quot;&quot; Nodes containing the preprocessing steps used in the preprocessing pipeline:</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 
 <div class="viewcode-block" id="sanitize_col_names"><a class="viewcode-back" href="../../../../predictive_maintenance.pipelines.data_processing.html#predictive_maintenance.pipelines.data_processing.nodes.sanitize_col_names">[docs]</a><span class="k">def</span> <span class="nf">sanitize_col_names</span><span class="p">(</span><span class="n">raw</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Used to clean column names</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        raw (pd.DataFrame): raw dataframe</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: dataframe with proper column names</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">names</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;[ ]{1,}&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">names</span> <span class="o">=</span> <span class="n">names</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -194,6 +200,14 @@
 
 
 <div class="viewcode-block" id="drop_cols"><a class="viewcode-back" href="../../../../predictive_maintenance.pipelines.data_processing.html#predictive_maintenance.pipelines.data_processing.nodes.drop_cols">[docs]</a><span class="k">def</span> <span class="nf">drop_cols</span><span class="p">(</span><span class="n">raw_sanitized</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Drop columns that wont be used</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        raw_sanitized (pd.DataFrame): raw data with clean col names</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: clean data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">raw_sanitized</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;udi&quot;</span><span class="p">,</span> <span class="s2">&quot;product_id&quot;</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 </pre></div>
 
