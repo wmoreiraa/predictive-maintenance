@@ -24,7 +24,14 @@ from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, StandardScaler
 np.random.seed(42)
 
 
-def _column_transformer():
+def _column_transformer() -> ColumnTransformer:
+    """Create the column transformer steps that will be used
+
+    Steps listed as "passthrough" with any names will be used in the CrossVal step.
+
+    Returns:
+        ColumnTransformer: scikit column transformer
+    """
     cat_selector = make_column_selector(dtype_exclude=np.number)
     num_selector = make_column_selector(dtype_include=np.number)
 
@@ -39,7 +46,11 @@ def _column_transformer():
 
 
 def _param_grid() -> list[dict[str, Any]]:
-    "Pipe param grid"
+    """Pipe param grid
+
+    Returns:
+        list[dict[str, Any]]: param grid used for CV
+    """
     return [
         {
             "estimator": [
@@ -60,16 +71,23 @@ def _param_grid() -> list[dict[str, Any]]:
     ]
 
 
-def _pipe():
+def _pipe() -> Pipeline:
+    """Scikit pipeline
+
+    Returns:
+        Pipeline:
+    """
     transformer = _column_transformer()
     return Pipeline([("transformer", transformer), ("estimator", "passthrough")])
 
 
 def _cv():
+    """Split method"""
     return StratifiedKFold(n_splits=5, shuffle=True)
 
 
 def _get_search_cv():
+    """Search object with some metrics used as scorers"""
     pipe = _pipe()
     grid = _param_grid()
     cv = _cv()
@@ -90,6 +108,7 @@ def _get_search_cv():
 
 
 def train_node(master_table: pd.DataFrame):
+    """Training node also used to split validation dataset"""
     TARGET_COL = "failure_type"
     X, y = master_table.drop([TARGET_COL], axis=1), master_table[TARGET_COL]
     le = LabelEncoder()
@@ -104,6 +123,7 @@ def train_node(master_table: pd.DataFrame):
 
 
 def get_model_scores(X_valid: pd.DataFrame, y_valid: pd.Series, model: Pipeline):
+    """Get model scores"""
     scores = cross_val_score(
         model,
         X_valid,
