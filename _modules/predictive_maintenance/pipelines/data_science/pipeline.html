@@ -189,7 +189,13 @@
             <span class="n">node</span><span class="p">(</span>
                 <span class="n">func</span><span class="o">=</span><span class="n">train_node</span><span class="p">,</span>
                 <span class="n">inputs</span><span class="o">=</span><span class="s2">&quot;master_table&quot;</span><span class="p">,</span>
-                <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="s2">&quot;x_valid&quot;</span><span class="p">,</span> <span class="s2">&quot;y_valid&quot;</span><span class="p">,</span> <span class="s2">&quot;model_params&quot;</span><span class="p">],</span>
+                <span class="n">outputs</span><span class="o">=</span><span class="p">[</span>
+                    <span class="s2">&quot;model&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;x_valid&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;y_valid&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;model_params&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;input_columns&quot;</span><span class="p">,</span>
+                <span class="p">],</span>
                 <span class="n">name</span><span class="o">=</span><span class="s2">&quot;train_model&quot;</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">node</span><span class="p">(</span>
