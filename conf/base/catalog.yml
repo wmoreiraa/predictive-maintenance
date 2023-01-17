@@ -17,6 +17,9 @@ model:
   filepath: data/06_models/model.pickle
   versioned: true
 
+input_columns:
+  type: tracking.JSONDataSet
+  filepath: data/09_tracking/input_columns.json
 
 model_params:
   type: tracking.JSONDataSet

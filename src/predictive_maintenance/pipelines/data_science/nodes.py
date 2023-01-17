@@ -131,11 +131,16 @@ def train_node(master_table: pd.DataFrame):
     )
     search = _get_search_cv()
     search.fit(X_train, y_train)
-    import pdb
 
-    pdb.set_trace()
     rf_params = search.best_params_["estimator"].get_params()
-    return search.best_estimator_, X_valid, y_valid, rf_params
+    input_columns = list(X_valid.columns)
+    return (
+        search.best_estimator_,
+        X_valid,
+        y_valid,
+        rf_params,
+        {"columns": input_columns},
+    )
 
 
 def get_model_scores(X_valid: pd.DataFrame, y_valid: pd.Series, model: GridSearchCV):
