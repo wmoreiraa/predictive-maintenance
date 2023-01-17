@@ -17,6 +17,13 @@ model:
   filepath: data/06_models/model.pickle
   versioned: true
 
+
+model_params:
+  type: tracking.JSONDataSet
+  filepath: data/09_tracking/model_params.json
+
+
+
 metrics:
   type: tracking.MetricsDataSet
   filepath: data/09_tracking/metrics.json

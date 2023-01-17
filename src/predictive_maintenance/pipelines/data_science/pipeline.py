@@ -14,7 +14,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 func=train_node,
                 inputs="master_table",
-                outputs=["model", "x_valid", "y_valid"],
+                outputs=["model", "x_valid", "y_valid", "model_params"],
                 name="train_model",
             ),
             node(

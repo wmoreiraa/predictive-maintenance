@@ -3,10 +3,12 @@ flake8>=3.7.9, <5.0
 ipython>=7.31.1, <8.0
 jupyter~=1.0
 jupyterlab~=3.0
-kedro[pandas,yaml]~=0.18.3
+kedro[pandas,yaml]~=0.18.4
 kedro-telemetry~=0.2.0
 nbstripout~=0.4
 scikit-learn==1.2.0
 feature-engine==1.5.2
 seaborn==0.12.1
 ruff==0.0.210
+fastapi
+typer[all]

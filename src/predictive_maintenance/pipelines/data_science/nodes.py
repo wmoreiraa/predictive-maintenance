@@ -131,13 +131,17 @@ def train_node(master_table: pd.DataFrame):
     )
     search = _get_search_cv()
     search.fit(X_train, y_train)
-    return search, X_valid, y_valid
+    import pdb
+
+    pdb.set_trace()
+    rf_params = search.best_params_["estimator"].get_params()
+    return search.best_estimator_, X_valid, y_valid, rf_params
 
 
 def get_model_scores(X_valid: pd.DataFrame, y_valid: pd.Series, model: GridSearchCV):
     """Get model scores"""
     scores = cross_val_score(
-        model.best_estimator_,
+        model,
         X_valid,
         y_valid,
         n_jobs=-1,
@@ -152,7 +156,7 @@ def get_model_scores(X_valid: pd.DataFrame, y_valid: pd.Series, model: GridSearc
 
 def get_costs_and_confusion(x_valid: pd.DataFrame, y_valid: pd.Series, model: Pipeline):
     cm = ConfusionMatrixDisplay.from_estimator(
-        model.best_estimator_, x_valid, y_valid, xticks_rotation="vertical"
+        model, x_valid, y_valid, xticks_rotation="vertical"
     )
     # If this is too slow could be changed to used numpy! (np.nditer)
     # I wont do it tought, for the sake of simplicity
