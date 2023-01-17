@@ -306,13 +306,17 @@
     <span class="p">)</span>
     <span class="n">search</span> <span class="o">=</span> <span class="n">_get_search_cv</span><span class="p">()</span>
     <span class="n">search</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">search</span><span class="p">,</span> <span class="n">X_valid</span><span class="p">,</span> <span class="n">y_valid</span></div>
+    <span class="kn">import</span> <span class="nn">pdb</span>
+
+    <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+    <span class="n">rf_params</span> <span class="o">=</span> <span class="n">search</span><span class="o">.</span><span class="n">best_params_</span><span class="p">[</span><span class="s2">&quot;estimator&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">search</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,</span> <span class="n">X_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">,</span> <span class="n">rf_params</span></div>
 
 
 <div class="viewcode-block" id="get_model_scores"><a class="viewcode-back" href="../../../../predictive_maintenance.pipelines.data_science.html#predictive_maintenance.pipelines.data_science.nodes.get_model_scores">[docs]</a><span class="k">def</span> <span class="nf">get_model_scores</span><span class="p">(</span><span class="n">X_valid</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">GridSearchCV</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get model scores&quot;&quot;&quot;</span>
     <span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">,</span>
         <span class="n">X_valid</span><span class="p">,</span>
         <span class="n">y_valid</span><span class="p">,</span>
         <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
@@ -327,7 +331,7 @@
 
 <div class="viewcode-block" id="get_costs_and_confusion"><a class="viewcode-back" href="../../../../predictive_maintenance.pipelines.data_science.html#predictive_maintenance.pipelines.data_science.nodes.get_costs_and_confusion">[docs]</a><span class="k">def</span> <span class="nf">get_costs_and_confusion</span><span class="p">(</span><span class="n">x_valid</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">Pipeline</span><span class="p">):</span>
     <span class="n">cm</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">best_estimator_</span><span class="p">,</span> <span class="n">x_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">,</span> <span class="n">xticks_rotation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">x_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">,</span> <span class="n">xticks_rotation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span>
     <span class="p">)</span>
     <span class="c1"># If this is too slow could be changed to used numpy! (np.nditer)</span>
     <span class="c1"># I wont do it tought, for the sake of simplicity</span>
